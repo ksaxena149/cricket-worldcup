@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket World Cup 2023</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cricket World Cup 2023</h1>
+        <h2>Matches</h2>
+        {% for match in matches %}
+        <div class="match-card">
+            <a href="/match/{{ match[0] }}" class="match-link">
+                <h3>Match {{ match[0] }}: Team 1 vs Team 2</h3>
+                <p>Date: {{ match[1] }}</p>
+                <p>Stadium: {{ match[2] }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
