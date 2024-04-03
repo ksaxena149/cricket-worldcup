@@ -5,6 +5,13 @@
     <title>Update Match</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('add_match') }}">Add Match</a></li>
+            <!-- Add more links as needed -->
+        </ul>
+    </nav>
     <h1>Update Match</h1>
     <form method="post">
         <label for="match_date">Match Date:</label>

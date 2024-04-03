@@ -81,7 +81,7 @@ form:not(.delete-form) label {
 }
 
 form:not(.delete-form) input[type="text"], form input[type="date"], form input[type="number"], form select {
-    width: 100%;
+    width: 96%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -118,4 +118,32 @@ input[type="submit"].delete-button {
 
 .delete-button:hover {
     background-color: #cc0000;
+}
+
+nav {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #007BFF;
+    color: white;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #ddd;
 }

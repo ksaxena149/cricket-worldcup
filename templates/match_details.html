@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('add_match') }}">Add Match</a></li>
+            <!-- Add more links as needed -->
+        </ul>
+    </nav>
     <div class="container">
         <h1>Match Details</h1>
         <h2>Match Date: {{ match_date }}</h2>
