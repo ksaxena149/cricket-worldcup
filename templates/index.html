@@ -11,13 +11,13 @@
         <h1>Cricket World Cup 2023</h1>
         <h2>Matches</h2>
         {% for match in matches %}
-        <div class="match-card">
-            <a href="/match/{{ match[0] }}" class="match-link">
-                <h3>Match {{ match[0] }}: Team 1 vs Team 2</h3>
-                <p>Date: {{ match[1] }}</p>
-                <p>Stadium: {{ match[2] }}</p>
-            </a>
-        </div>
+            <div class="match-card">
+                <a href="/match/{{ match[0] }}" class="match-link">
+                    <h3>Match {{ match[0] }}: {{ match_teams[match[0]]|join(' vs ') }}</h3>
+                    <p>Date: {{ match[1] }}</p>
+                    <p>Stadium: {{ match[2] }}</p>
+                </a>
+            </div>
         {% endfor %}
     </div>
 </body>

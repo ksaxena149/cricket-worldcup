@@ -15,10 +15,25 @@ mydb = mysql.connector.connect(
 @app.route('/')
 def index():
     cursor = mydb.cursor()
+    
+    # Fetch match details
     cursor.execute("SELECT match_id, match_date, stadium FROM match_details")
     matches = cursor.fetchall()
     
-    return render_template('index.html', matches=matches)
+    # Fetch team names for each match
+    match_teams = {}
+    for match in matches:
+        cursor.execute("""
+            SELECT t.team_s_name 
+            FROM played p 
+            JOIN team t ON p.team_id = t.team_id 
+            WHERE p.match_id = %s
+            GROUP BY t.team_s_name
+        """, (match[0],))
+        teams = [row[0] for row in cursor.fetchall()]
+        match_teams[match[0]] = teams
+    
+    return render_template('index.html', matches=matches, match_teams=match_teams)
 
 @app.route('/match/<int:match_id>')
 def match_details(match_id):
