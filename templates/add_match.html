@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Add Match</title>
+</head>
+<body>
+    <h1>Add Match</h1>
+    <form method="post">
+        <label for="match_date">Match Date:</label>
+        <input type="date" id="match_date" name="match_date" required>
+        <label for="stadium">Stadium:</label>
+        <input type="text" id="stadium" name="stadium" required>
+        {% for i in range(22) %}
+            <label for="team{{ i }}">Team:</label>
+            <select id="team{{ i }}" name="teams">
+                {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                {% endfor %}
+            </select>
+            <label for="player{{ i }}">Player:</label>
+            <select id="player{{ i }}" name="players">
+                {% for player in players %}
+                    <option value="{{ player }}">{{ player }}</option>
+                {% endfor %}
+            </select>
+            <label for="score{{ i }}">Score:</label>
+            <input type="number" id="score{{ i }}" name="scores">
+        {% endfor %}
+        <input type="submit" value="Add Match">
+    </form>
+</body>
+</html>

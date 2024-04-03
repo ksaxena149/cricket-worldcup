@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 
 app = Flask(__name__)
@@ -66,6 +66,56 @@ def match_details(match_id):
         team_scorecards[team_name] = cursor.fetchall()
     
     return render_template('match_details.html', match_id=match_id, match_date=match[0], stadium=match[1], team_scorecards=team_scorecards)
+
+@app.route('/add_match', methods=['GET', 'POST'])
+def add_match():
+    if request.method == 'POST':
+        match_date = request.form['match_date']
+        stadium = request.form['stadium']
+        teams = request.form.getlist('teams')
+        players = request.form.getlist('players')
+        scores = request.form.getlist('scores')
+
+        cursor = mydb.cursor()
+        cursor.execute("INSERT INTO match_details (match_date, stadium) VALUES (%s, %s)", (match_date, stadium))
+        match_id = cursor.lastrowid
+
+        for team, player, score in zip(teams, players, scores):
+            cursor.execute("INSERT INTO played (match_id, score, team_id, player_id) VALUES (%s, %s, (SELECT team_id FROM team WHERE team_name = %s), (SELECT player_id FROM player WHERE player_name = %s))", (match_id, score, team, player))
+
+        mydb.commit()
+        return redirect(url_for('index'))
+
+    else:
+        cursor = mydb.cursor()
+        cursor.execute("SELECT team_name FROM team")
+        teams = [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT player_name FROM player")
+        players = [row[0] for row in cursor.fetchall()]
+        return render_template('add_match.html', teams=teams, players=players)
+
+@app.route('/delete_match/<int:match_id>', methods=['POST'])
+def delete_match(match_id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM match_details WHERE match_id = %s", (match_id,))
+    mydb.commit()
+    return redirect(url_for('index'))
+
+@app.route('/update_match/<int:match_id>', methods=['GET', 'POST'])
+def update_match(match_id):
+    cursor = mydb.cursor()
+
+    if request.method == 'POST':
+        match_date = request.form['match_date']
+        stadium = request.form['stadium']
+        cursor.execute("UPDATE match_details SET match_date = %s, stadium = %s WHERE match_id = %s", (match_date, stadium, match_id))
+        mydb.commit()
+        return redirect(url_for('match_details', match_id=match_id))
+
+    else:
+        cursor.execute("SELECT match_date, stadium FROM match_details WHERE match_id = %s", (match_id,))
+        match = cursor.fetchone()
+        return render_template('update_match.html', match_id=match_id, match_date=match[0], stadium=match[1])
 
 if __name__ == '__main__':
     app.run(debug=True)
