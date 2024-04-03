@@ -12,22 +12,22 @@
         <h2>Match Date: {{ match_date }}</h2>
         <h2>Stadium: {{ stadium }}</h2>
         
-        {% for team_id, team_scorecard in team_scorecards.items() %}
-        <div class="team-column">
-            <h2>Team {{ team_id }}</h2>
-            <table>
-                <tr>
-                    <th>Player Name</th>
-                    <th>Score</th>
-                </tr>
-                {% for player, score in team_scorecard %}
-                <tr>
-                    <td>{{ player }}</td>
-                    <td>{{ score }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+        {% for team_name, team_scorecard in team_scorecards.items() %}
+            <div class="team-column">
+                <h2>Team {{ team_name }}</h2>
+                <table>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Score</th>
+                    </tr>
+                    {% for player, score in team_scorecard %}
+                    <tr>
+                        <td>{{ player }}</td>
+                        <td>{{ score }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         {% endfor %}
         
     </div>

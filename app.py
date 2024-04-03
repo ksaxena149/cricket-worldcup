@@ -43,15 +43,27 @@ def match_details(match_id):
     cursor.execute("SELECT match_date, stadium FROM match_details WHERE match_id = %s", (match_id,))
     match = cursor.fetchone()
     
-    # Fetch distinct team IDs that played in the match
-    cursor.execute("SELECT DISTINCT team_id FROM played WHERE match_id = %s", (match_id,))
+    # Fetch distinct team names that played in the match
+    cursor.execute("""
+        SELECT DISTINCT t.team_name 
+        FROM played p 
+        JOIN team t ON p.team_id = t.team_id 
+        WHERE p.match_id = %s
+    """, (match_id,))
     teams = [row[0] for row in cursor.fetchall()]
     
     # Fetch players and their scores for each team
     team_scorecards = {}
-    for team_id in teams:
-        cursor.execute("SELECT p.player_name, pl.score FROM played pl JOIN player p ON pl.player_id = p.player_id WHERE pl.match_id = %s AND pl.team_id = %s ORDER BY p.player_id", (match_id, team_id))
-        team_scorecards[team_id] = cursor.fetchall()
+    for team_name in teams:
+        cursor.execute("""
+            SELECT p.player_name, pl.score 
+            FROM played pl 
+            JOIN player p ON pl.player_id = p.player_id 
+            JOIN team t ON pl.team_id = t.team_id 
+            WHERE pl.match_id = %s AND t.team_name = %s 
+            ORDER BY p.player_id
+        """, (match_id, team_name))
+        team_scorecards[team_name] = cursor.fetchall()
     
     return render_template('match_details.html', match_id=match_id, match_date=match[0], stadium=match[1], team_scorecards=team_scorecards)
 
