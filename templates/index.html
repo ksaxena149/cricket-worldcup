@@ -25,6 +25,7 @@
                     <p>Stadium: {{ match[2] }}</p>
                 </a>
                 <form method="post" action="{{ url_for('delete_match', match_id=match[0]) }}" class="delete-form">
+                    <a href="{{ url_for('update_match', match_id=match[0]) }}" class="update-button">Update Match</a>
                     <input type="submit" value="Delete Match" class="delete-button">
                 </form>
             </div>
