@@ -4,7 +4,13 @@
 
 This project is designed to manage and store information related to the ICC World Cup 2023 matches. It's intended for cricket enthusiasts, statisticians, and anyone interested in accessing, analyzing, and managing data related to the tournament. The system will include details such as teams, players, match schedules and scores. It provides an efficient way to query and manipulate this data, offering valuable insights into the tournament.
 
-## Installation
+### Prerequisites
+
+- Python 3.8 or higher
+- MySQL 8.0 or higher
+- Git
+
+### Installation
 
 Follow these steps to get a copy of the project up and running on your local machine for development and testing purposes.
 
